@@ -1,0 +1,11 @@
+{
+  "credentials_empty": "Email hoặc tên đăng nhập không được để trống",
+  "email": "Sai định dạng email",
+  "email_empty": "Email không được để trống",
+  "password": "Mật khẩu phải từ 6 đến 30 ký tự và chỉ chứa chữ cái và số",
+  "password_empty": "Mật khẩu không được để trống",
+  "password_string_base": "Mật khẩu phải được nhập",
+  "username": "Tên đăng nhập không được để trống",
+  "username_min": "Tên đăng nhập phải từ 6 ký tự",
+  "username_empty": "Tên đăng nhập không được để trống"
+}

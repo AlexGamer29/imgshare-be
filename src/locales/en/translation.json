@@ -1,0 +1,11 @@
+{
+  "credentials_empty": "Credentials cannot be empty",
+  "email": "Invalid email address",
+  "email_empty": "Email cannot be empty",
+  "password": "Password must be between 6 and 30 characters and contain only letters and numbers",
+  "password_empty": "Password cannot be empty",
+  "password_string_base": "Password must be provided",
+  "username": "Username is required",
+  "username_min": "Username must be minimum 6 characters",
+  "username_empty": "Username cannot be empty"
+}
