@@ -21,7 +21,7 @@ services:
     volumes:
       - .:/app # Your application code
     ports:
-      - '4000:6000'
+      - '5000:6000'
     environment:
       APP_NAME: imgshare_be
       PORT: 6000
