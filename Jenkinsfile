@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        GIT_URL = 'https://github.com/Moxci-Team/Back-End-Team.git'
-        GIT_BRANCH = 'dev'
+        GIT_URL = 'https://github.com/AlexGamer29/imgshare-be'
+        GIT_BRANCH = 'master'
         COMPOSE_FILE = 'docker-compose.yml'
     }
 
