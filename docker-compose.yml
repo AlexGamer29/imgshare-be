@@ -26,7 +26,7 @@ services:
       APP_NAME: imgshare_be
       PORT: 6000
       ENV: development
-      DEV_DATABASE_URL: postgres://root:root@postgres:5432/imgshare
+      DEV_DATABASE_URL: postgres://root:root@postgres:6432/imgshare
       DEV_DATABASE_HOST: postgres
       DEV_DATABASE_USERNAME: root
       DEV_DATABASE_PWD: root
