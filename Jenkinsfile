@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Build and start containers without stopping them
-                    sh 'docker-compose down'
+                    sh 'docker-compose down -v'
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Build and start containers without stopping them
-                    sh 'docker-compose up -d --build'
+                    sh 'docker-compose --env-file .env.production up -d --build'
                 }
             }
         }
