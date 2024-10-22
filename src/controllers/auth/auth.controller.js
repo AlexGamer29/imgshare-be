@@ -1,10 +1,6 @@
 const bcrypt = require('bcryptjs');
 
 const { createUsers, findEmailExist } = require('../../services/accounts');
-const {
-  createLogInSchema,
-} = require('../../validators/validationSchemas.validator');
-const { createPaseto } = require('../../helpers/paseto.helper');
 const { decrypt } = require('../../helpers/rsa.helper');
 const {
   generateTokens,
@@ -154,22 +150,13 @@ const getAccessToken = async (req, res) => {
       })
       .catch(async error => {
         console.log(error);
-        const errorMessage = error?.error?.message;
-        const translatedMessage = await translateMessage(
-          errorMessage,
-          language
-        );
-        error.error.message = translatedMessage;
         return res.status(403).send(error);
       });
   } catch (error) {
-    const originalMessage = error?.errors[0]?.message ?? error?.message;
-    const translatedMessage = await translateMessage(originalMessage, language);
-
     res.status(500).json({
       data: null,
       error: {
-        message: error?.name + ': ' + translatedMessage,
+        message: error?.name + ': ' + error?.message,
         code: parseInt(error?.parent?.code) || 500,
       },
     });
@@ -206,13 +193,10 @@ const deleteRefreshToken = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    const originalMessage = error?.errors[0]?.message ?? error?.message;
-    const translatedMessage = await translateMessage(originalMessage, language);
-
     res.status(500).json({
       data: null,
       error: {
-        message: error?.name + ': ' + translatedMessage,
+        message: error?.name + ': ' + error?.message,
         code: parseInt(error?.parent?.code) || 500,
       },
     });

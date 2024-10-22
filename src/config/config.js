@@ -13,4 +13,8 @@ module.exports = {
   PASETO_PUBLIC_KEY: process.env.PASETO_PUBLIC_KEY,
   PASETO_PRIVATE_KEY: process.env.PASETO_PRIVATE_KEY,
   API_VERSION: process.env.API_VERSION,
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+  S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+  AWS_REGION: process.env.AWS_REGION,
 };

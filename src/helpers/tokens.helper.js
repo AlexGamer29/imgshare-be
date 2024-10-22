@@ -8,7 +8,7 @@ const {
 const generateTokens = async user => {
   try {
     const accessToken = await createPaseto(user, '1h');
-    const refreshToken = await createPaseto({id: user.id}, '7d');
+    const refreshToken = await createPaseto(user, '7d');
     const saveRefreshToken = await findOne('tokens', { userId: user.id });
     if (saveRefreshToken) await deleteDocuments('tokens', { userId: user.id });
 
