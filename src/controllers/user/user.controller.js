@@ -1,49 +1,9 @@
 const { find } = require('../../helpers/query.helper');
-const { createUsers, updateUsers } = require('../../services/users');
-
-const createNewUser = async (req, res) => {
-  const {
-    email,
-    password,
-    googleId,
-    facebookId,
-    appleId,
-    firstname,
-    lastname,
-    username,
-  } = req.body;
-  console.log(req.body);
-  try {
-    const user = await createUsers(
-      email,
-      password,
-      googleId,
-      facebookId,
-      appleId,
-      firstname,
-      lastname,
-      username
-    );
-    return res.json({
-      data: { user },
-      error: null,
-    });
-  } catch (error) {
-    res.status(500).json({
-      data: null,
-      error: {
-        message: error?.name + ': ' + error?.errors[0]?.message,
-        code: parseInt(error?.code),
-      },
-    });
-    console.error(error);
-  }
-};
+const { updateUsers } = require('../../services/users');
 
 const updateUser = async (req, res) => {
-  console.log(req.body);
   try {
-    const user = await updateUsers(1, req.body);
+    const user = await updateUsers(req?.user?.id, req.body);
     return res.json({
       data: { user },
       error: null,
@@ -52,7 +12,7 @@ const updateUser = async (req, res) => {
     res.status(500).json({
       data: null,
       error: {
-        message: error?.name + ': ' + error?.errors[0]?.message,
+        message: error?.name + ': ' + error?.message,
         code: parseInt(error?.code),
       },
     });
@@ -81,7 +41,7 @@ const getUserInfo = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const users = await find('accounts');
+  const users = await find('users');
   try {
     return res.json({
       data: { users },
@@ -102,6 +62,5 @@ const getAllUsers = async (req, res) => {
 module.exports = {
   getUserInfo,
   getAllUsers,
-  createNewUser,
   updateUser,
 };

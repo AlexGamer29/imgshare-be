@@ -5,7 +5,6 @@ const router = express.Router();
 const {
   getUserInfo,
   getAllUsers,
-  createNewUser,
   updateUser,
 } = require('../../controllers/index.controller');
 const {
@@ -99,6 +98,5 @@ router.get('/info', authenticatePasetoToken, getUserInfo);
  */
 router.get('/list', getAllUsers);
 
-router.post('/new', createNewUser);
-router.post('/update', updateUser);
+router.post('/update', authenticatePasetoToken, updateUser);
 module.exports = router;

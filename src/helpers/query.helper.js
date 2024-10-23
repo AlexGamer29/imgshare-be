@@ -1,7 +1,7 @@
 const Models = require('../database/index');
 
-const find = async (modelDb, queryObj) =>
-  await Models[modelDb].findAll({ where: queryObj });
+const find = async (modelDb, queryObj, include, options = {}) =>
+  await Models[modelDb].findAll({ where: queryObj, include, ...options });
 
 const findOne = async (modelDb, queryObj) =>
   await Models[modelDb].findOne({ where: queryObj });
@@ -84,5 +84,5 @@ module.exports = {
   getDataSelectWithLimit,
   findPopulateSortAndLimit,
   deleteDocuments,
-  countDocuments
+  countDocuments,
 };

@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-const { createUsers, findEmailExist } = require('../../services/accounts');
+const { createUsers, findEmailExist } = require('../../services/users');
 const { decrypt } = require('../../helpers/rsa.helper');
 const {
   generateTokens,

@@ -4,10 +4,16 @@ const {
   getAccessToken,
   deleteRefreshToken,
 } = require('./auth/auth.controller');
-const { getUserInfo, getAllUsers, createNewUser, updateUser } = require('./user/user.controller');
+const {
+  getUserInfo,
+  getAllUsers,
+  updateUser,
+} = require('./user/user.controller');
 const { encryptData, decryptData } = require('./private/private.controller');
 const { uploadImage } = require('./upload/upload.controller');
 const { getAllImages } = require('./image/image.controller');
+const { addNewFriend, removeFriend, listAllFriends, searchFriends } = require('./friend/friend.controller');
+const { getFeed } = require('./feed/feed.controller');
 
 module.exports = {
   signUpWithPassword,
@@ -18,8 +24,12 @@ module.exports = {
   encryptData,
   decryptData,
   getAllUsers,
-  createNewUser,
   updateUser,
   uploadImage,
-  getAllImages
+  getAllImages,
+  addNewFriend,
+  removeFriend,
+  listAllFriends,
+  searchFriends,
+  getFeed
 };

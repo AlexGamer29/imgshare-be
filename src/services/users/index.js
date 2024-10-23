@@ -23,41 +23,72 @@ const createUsers = async (
     });
     return users;
   } catch (error) {
-    console.error('Error in createUsers:', error);
+    throw error;
+  }
+};
+
+const findEmailExist = async (email) => {
+  try {
+    const users = await models.users.findAll({
+      where: {
+        email: email,
+      },
+    });
+    return users;
+  } catch (error) {
     throw error;
   }
 };
 
 const updateUsers = async (id, updates) => {
   try {
-    // Build the object of fields to update conditionally
-    const fieldsToUpdate = {};
     const now = new Date();
 
     // Destructure the updates object to get potential new values
     const { email, password, firstname, lastname, username } = updates;
 
-    // Conditionally add each field to the update object if it's not null or empty
+    // Fetch only the lastchange object for the user
+    const userRecord = await models.users.findOne({
+      where: { id },
+      attributes: ['lastchange'],
+    });
+
+    if (!userRecord) {
+      throw new Error('User not found');
+    }
+
+    // Merge the current lastchange values with the new ones
+    const lastchange = userRecord.lastchange || {};
+
+    const fieldsToUpdate = {};
+
     if (email && email.trim() !== '') {
       fieldsToUpdate.email = email;
-      fieldsToUpdate['lastchange.email'] = now; // Update lastchange for email
+      lastchange.email = now; // Update lastchange for email
     }
+
     if (password && password.trim() !== '') {
       fieldsToUpdate.password = password; // Hash the password before saving
-      fieldsToUpdate['lastchange.password'] = now; // Update lastchange for password
+      lastchange.password = now; // Update lastchange for password
     }
+
     if (firstname && firstname.trim() !== '') {
       fieldsToUpdate.firstname = firstname;
-      fieldsToUpdate['lastchange.firstname'] = now; // Update lastchange for firstname
+      lastchange.firstname = now; // Update lastchange for firstname
     }
+
     if (lastname && lastname.trim() !== '') {
       fieldsToUpdate.lastname = lastname;
-      fieldsToUpdate['lastchange.lastname'] = now; // Update lastchange for lastname
+      lastchange.lastname = now; // Update lastchange for lastname
     }
+
     if (username && username.trim() !== '') {
       fieldsToUpdate.username = username;
-      fieldsToUpdate['lastchange.username'] = now; // Update lastchange for username
+      lastchange.username = now; // Update lastchange for username
     }
+
+    // Include lastchange in the update
+    fieldsToUpdate.lastchange = lastchange;
 
     // Check if there's anything to update
     if (Object.keys(fieldsToUpdate).length === 0) {
@@ -86,7 +117,9 @@ const updateUsers = async (id, updates) => {
   }
 };
 
+
 module.exports = {
   createUsers,
-  updateUsers,
+  findEmailExist,
+  updateUsers
 };

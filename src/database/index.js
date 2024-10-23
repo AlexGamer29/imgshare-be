@@ -7,7 +7,7 @@ const config = require('./config/config.js')[env];
 const db = {};
 config.logging = false;
 
-const { accounts, tokens, users, images } = require('./models');
+const { tokens, users, images, friends } = require('./models');
 
 let sequelize;
 if (config.use_env_variable) {
@@ -52,10 +52,10 @@ sequelize
   });
 
 db.sequelize = sequelize;
-db.accounts = accounts(sequelize, Sequelize.DataTypes);
 db.users = users(sequelize, Sequelize.DataTypes);
 db.tokens = tokens(sequelize, Sequelize.DataTypes);
 db.images = images(sequelize, Sequelize.DataTypes);
+db.friends = images(sequelize, Sequelize.DataTypes);
 
 // Test the connection
 sequelize
