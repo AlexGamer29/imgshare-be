@@ -48,7 +48,6 @@ const signUpWithPassword = async (req, res) => {
       null,
       null,
       null,
-      'local',
       firstname,
       lastname,
       username

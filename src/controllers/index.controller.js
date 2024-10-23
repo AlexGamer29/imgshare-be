@@ -6,6 +6,8 @@ const {
 } = require('./auth/auth.controller');
 const { getUserInfo, getAllUsers, createNewUser, updateUser } = require('./user/user.controller');
 const { encryptData, decryptData } = require('./private/private.controller');
+const { uploadImage } = require('./upload/upload.controller');
+const { getAllImages } = require('./image/image.controller');
 
 module.exports = {
   signUpWithPassword,
@@ -17,5 +19,7 @@ module.exports = {
   decryptData,
   getAllUsers,
   createNewUser,
-  updateUser
+  updateUser,
+  uploadImage,
+  getAllImages
 };

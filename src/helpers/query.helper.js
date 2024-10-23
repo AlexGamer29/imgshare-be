@@ -69,6 +69,9 @@ const getDataSelectWithLimit = async (
 const deleteDocuments = async (modelDb, deleteQuery) =>
   await Models[modelDb].destroy({ where: deleteQuery });
 
+const countDocuments = async (modelDb, queryObj) =>
+  await Models[modelDb].count({ where: queryObj });
+
 module.exports = {
   find,
   findOne,
@@ -81,4 +84,5 @@ module.exports = {
   getDataSelectWithLimit,
   findPopulateSortAndLimit,
   deleteDocuments,
+  countDocuments
 };
