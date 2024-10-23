@@ -55,7 +55,7 @@ db.sequelize = sequelize;
 db.users = users(sequelize, Sequelize.DataTypes);
 db.tokens = tokens(sequelize, Sequelize.DataTypes);
 db.images = images(sequelize, Sequelize.DataTypes);
-db.friends = images(sequelize, Sequelize.DataTypes);
+db.friends = friends(sequelize, Sequelize.DataTypes);
 
 // Test the connection
 sequelize
