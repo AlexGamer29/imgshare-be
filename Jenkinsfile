@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Build and start containers without stopping them
-                    sh 'docker-compose --env-file /www/wwwroot/topmetatft.tech/.env.production up -d --build'
+                    sh 'docker-compose --env-file /www/wwwroot/imgshare-be.topmetatft.tech/.env.production up -d --build'
                 }
             }
         }
