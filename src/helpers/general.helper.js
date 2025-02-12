@@ -9,10 +9,10 @@ function stringToNumber(str) {
 }
 
 // Helper function to generate unique hash
-function generateHash() {
+function generateHash(username, originalName) {
   const timestamp = Date.now(); // Get current timestamp in milliseconds
   const randomBytes = crypto.randomBytes(16).toString('hex'); // Generate random bytes
-  const combined = `${timestamp}-${randomBytes}`; // Append timestamp before the random hash
+  const combined = `${timestamp}-${randomBytes}-${username}-${originalName}`; // Append timestamp before the random hash
   // Hash the combined timestamp and random bytes to ensure uniqueness
   const hash = crypto.createHash('md5').update(combined).digest('hex'); // Hash with SHA-256
   return hash;

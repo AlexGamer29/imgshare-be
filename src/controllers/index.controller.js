@@ -10,9 +10,17 @@ const {
   updateUser,
 } = require('./user/user.controller');
 const { encryptData, decryptData } = require('./private/private.controller');
-const { uploadImage } = require('./upload/upload.controller');
-const { getAllImages } = require('./image/image.controller');
-const { addNewFriend, removeFriend, listAllFriends, searchFriends } = require('./friend/friend.controller');
+const {
+  getAllImages,
+  uploadImage,
+  deleteImage,
+} = require('./image/image.controller');
+const {
+  addNewFriend,
+  removeFriend,
+  listAllFriends,
+  searchFriends,
+} = require('./friend/friend.controller');
 const { getFeed } = require('./feed/feed.controller');
 
 module.exports = {
@@ -26,10 +34,11 @@ module.exports = {
   getAllUsers,
   updateUser,
   uploadImage,
+  deleteImage,
   getAllImages,
   addNewFriend,
   removeFriend,
   listAllFriends,
   searchFriends,
-  getFeed
+  getFeed,
 };
