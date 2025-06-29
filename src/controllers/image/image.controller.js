@@ -7,6 +7,9 @@ const models = require('../../database/');
 const { S3_BUCKET_NAME } = require('../../config/config');
 const s3 = require('../../config/s3');
 
+const { cacheHelper, RedisKeys } = require('../../services/cache');
+const queueManager = require('../../services/upload-queue/imageQueueManager');
+
 const getAllImages = async (req, res) => {
   const page = parseInt(req.query.page);
   const limit = parseInt(req.query.limit);
@@ -33,8 +36,77 @@ const getAllImages = async (req, res) => {
   }
 };
 
+function parseUploadOptions(body) {
+  const options = {};
+
+  // Parse resize options
+  if (body.resize_width || body.resize_height) {
+    options.resize = {
+      width: body.resize_width ? parseInt(body.resize_width) : undefined,
+      height: body.resize_height ? parseInt(body.resize_height) : undefined,
+    };
+  }
+
+  // Parse quality
+  if (body.quality) {
+    options.quality = Math.max(1, Math.min(100, parseInt(body.quality)));
+  }
+
+  // Parse format
+  if (body.format) {
+    options.format = body.format.toLowerCase();
+  }
+
+  // Parse thumbnail generation
+  if (body.generate_thumbnails !== undefined) {
+    options.generateThumbnails = body.generate_thumbnails === 'true';
+  }
+
+  // Parse priority
+  if (body.priority) {
+    options.priority = Math.max(1, Math.min(10, parseInt(body.priority)));
+  }
+
+  return options;
+}
+
 const uploadImage = async (req, res) => {
   try {
+    const options = parseUploadOptions(req.body);
+
+
+    const jobResult = queueManager.addImageProcessingJob(
+      {
+        buffer: req.file.buffer,
+        mimetype: req.file.mimetype,
+        size: req.file.size,
+      },
+      {
+        ...options,
+        originalName: req.file.originalname,
+        userId: req.user?.id || req.body.userId,
+      }
+    );
+    
+    console.log(`first ${jobResult}`);
+
+    let jobStatus = new Map();
+
+    jobStatus.set(jobResult.jobId, {
+      status: 'queued',
+      originalName: req.file.originalname,
+      createdAt: new Date().toISOString(),
+      fileSize: req.file.size,
+    });
+
+    return res.status(200).json({
+      success: true,
+      jobId: jobResult.jobId,
+      status: 'queued',
+      message: 'Image uploaded and queued for processing',
+      estimatedProcessingTime: '30-60 seconds',
+    });
+
     const saveImg = await models.images.create({
       ownerId: req?.user?.id,
       originalName: req?.file?.originalname,
@@ -47,7 +119,11 @@ const uploadImage = async (req, res) => {
       acl: req?.file?.acl,
       bucket: req?.file?.bucket,
     });
-    // console.log(req);
+
+    await cacheHelper.invalidateCache(
+      `${RedisKeys.getCountImagesByOwnerIdKey(req?.user?.id)}*`
+    );
+
     return res.json({
       data: { message: 'File uploaded successfully!', ...saveImg.dataValues },
       error: null,

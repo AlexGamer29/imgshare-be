@@ -13,6 +13,10 @@ const { unknownEndpoint } = require('./middlewares/index.middleware');
 const { encrypt } = require('./helpers/rsa.helper');
 const { swaggerUi, swaggerDocs } = require('./helpers/swagger.helper');
 
+const redisService = require('./services/cache/redis.service');
+const uploadQueue = require('./services/upload-queue/rabbitmq');
+const worker = require('./services/workers/imageWorkers');
+
 // Create a write stream
 const accessLogStream = rfs.createStream('access.log', {
   interval: '1d', // rotate daily
@@ -77,4 +81,13 @@ app.use(unknownEndpoint);
 
 app.listen(PORT, () => {
   console.log(`${APP_NAME} running on port ${PORT}.`);
+
+  worker.startSingleWorker();
+
+  if (redisService.isEnabled()) {
+    setTimeout(async () => {
+      const connected = await redisService.ping().catch(() => false);
+      console.log(connected ? '✅ Redis connected' : '⚠️ Redis not available');
+    }, 1000);
+  }
 });
